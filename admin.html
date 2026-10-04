@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VAY PERFUME — админка</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Стили только для страницы админки — публичный сайт (css/style.css) не трогаем. */
+  body{overflow-x:hidden;}
+  .admin-shell{max-width:1000px;margin:0 auto;padding:28px 20px 80px;}
+  .admin-header{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding-top:calc(env(safe-area-inset-top,0px) + 8px);margin-bottom:32px;flex-wrap:wrap;}
+  .admin-header .brandmark{position:static;}
+  .admin-status{font-size:12px;color:var(--taupe);}
+  .admin-status.ok{color:var(--gold);}
+  .admin-status.err{color:#c97a6a;}
+
+  #loginScreen{min-height:80svh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .login-box{width:100%;max-width:360px;}
+  .login-box h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:28px;margin-bottom:6px;}
+  .login-box p.hint{color:var(--taupe);font-size:13px;margin-bottom:24px;line-height:1.6;}
+  .login-error{color:#c97a6a;font-size:13px;margin-top:10px;min-height:18px;}
+
+  .admin-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
+  .admin-toolbar h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px;}
+
+  .admin-table{width:100%;border-collapse:collapse;}
+  .admin-table th{text-align:left;font-size:11px;letter-spacing:.08em;color:var(--gold);
+    text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--hairline);}
+  .admin-table td{padding:12px;border-bottom:1px solid rgba(200,162,77,0.12);font-size:14px;vertical-align:middle;}
+  .admin-table img{width:40px;height:52px;object-fit:cover;border-radius:2px;display:block;background:#000;}
+  .admin-table tr:hover{background:rgba(200,162,77,0.04);}
+  .admin-row-actions{display:flex;gap:8px;}
+  .admin-row-actions button{font-size:12px;color:var(--gold);padding:6px 10px;border:1px solid var(--hairline);border-radius:2px;}
+  .admin-row-actions button.danger{color:#c97a6a;border-color:rgba(201,122,106,.4);}
+  .admin-badge{font-size:11px;padding:3px 8px;border:1px solid var(--hairline);border-radius:2px;color:var(--taupe);}
+  .admin-badge.instock{color:var(--gold);}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .admin-empty{padding:40px 12px;text-align:center;color:var(--taupe);font-size:14px;}
+  #adminApp{display:none;}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>VAY · PERFUME</h1>
+    <p class="hint">Вход только для администратора. Используйте email и пароль, созданные в Supabase.</p>
+    <div class="review-form-row">
+      <label>Email</label>
+      <input type="email" id="loginEmail" autocomplete="username">
+    </div>
+    <div class="review-form-row">
+      <label>Пароль</label>
+      <input type="password" id="loginPassword" autocomplete="current-password">
+    </div>
+    <button id="loginSubmit" class="btn-solid" style="width:100%;margin-top:18px;text-align:center;">Войти</button>
+    <div class="login-error" id="loginError"></div>
+    <p class="hint" id="notConfiguredNote" style="display:none;margin-top:18px;">
+      Supabase ещё не подключён (не заполнен js/supabase-config.js), поэтому вход недоступен.
+      См. supabase/README.md.
+    </p>
+  </div>
+</div>
+
+<div id="adminApp">
+  <div class="admin-shell">
+    <div class="admin-header">
+      <span class="brandmark">VAY<span> · </span>PERFUME <span style="color:var(--taupe);font-size:13px;">— админка</span></span>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span class="admin-status" id="adminStatus"></span>
+        <button id="logoutBtn" class="btn-outline" style="padding:9px 18px;font-size:11px;">Выйти</button>
+      </div>
+    </div>
+
+    <div class="admin-toolbar">
+      <h2>Товары (<span id="fragCount">0</span>)</h2>
+      <button id="addFragBtn" class="btn-solid" style="padding:12px 22px;">＋ Добавить товар</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th></th><th>Название</th><th>Категория</th><th>Цена</th><th>Наличие</th><th>Порядок</th><th></th></tr>
+        </thead>
+        <tbody id="adminTableBody"></tbody>
+      </table>
+      <div class="admin-empty" id="adminEmpty" style="display:none;">Товаров пока нет — добавьте первый.</div>
+    </div>
+  </div>
+</div>
+
+<!-- форма добавления/редактирования товара (та же, что и в публичной заготовке) -->
+<div class="modal-overlay" id="fragModalOverlay">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-content" style="padding:26px;">
+      <h3 class="modal-name" style="margin-bottom:18px;">Аромат</h3>
+
+      <div class="review-form-row">
+        <label>Фото</label>
+        <input type="file" id="fragFormPhotoFile" accept="image/*">
+        <div id="fragFormPhotoPreview" style="margin-top:10px;width:110px;aspect-ratio:3/4;background:#000;overflow:hidden;display:none;">
+          <img id="fragFormPhotoImg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div id="fragFormPhotoStatus" style="margin-top:8px;font-size:12px;color:var(--taupe);"></div>
+      </div>
+      <div class="review-form-row">
+        <label>Категория</label>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="filter-btn frag-gender-btn active" data-gender="him" style="flex:1;">Для него</button>
+          <button type="button" class="filter-btn frag-gender-btn" data-gender="her" style="flex:1;">Для неё</button>
+          <button type="button" class="filter-btn frag-gender-btn" data-gender="unisex" style="flex:1;">Унисекс</button>
+        </div>
+      </div>
+      <div class="review-form-row">
+        <label>Бренд</label>
+        <input type="text" id="fragFormBrand" placeholder="Например, Lattafa">
+      </div>
+      <div class="review-form-row">
+        <label>Название</label>
+        <input type="text" id="fragFormName" placeholder="Название аромата">
+      </div>
+      <div class="review-form-row">
+        <label>Ощущение / описание</label>
+        <textarea id="fragFormFeel" rows="3" placeholder="Тёплый, сладкий, насыщенный..."></textarea>
+      </div>
+      <div class="review-form-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div><label>Верхние ноты</label><input type="text" id="fragFormNotesTop"></div>
+        <div><label>Сердце</label><input type="text" id="fragFormNotesHeart"></div>
+        <div><label>База</label><input type="text" id="fragFormNotesBase"></div>
+      </div>
+      <div class="review-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><label>Объём</label><input type="text" id="fragFormVolume" placeholder="90 мл"></div>
+        <div><label>Порядок показа</label><input type="number" id="fragFormOrder" placeholder="0"></div>
+      </div>
+      <div class="review-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><label>Цена</label><input type="text" id="fragFormPrice" placeholder="3 500 ₽"></div>
+        <div><label>Старая цена</label><input type="text" id="fragFormOldPrice" placeholder="необязательно"></div>
+      </div>
+      <div class="review-form-row">
+        <label>Характер аромата (коротко)</label>
+        <input type="text" id="fragFormCharacter" placeholder="тёплый · пряный · сладкий">
+      </div>
+      <div class="review-form-row">
+        <label>Тип товара</label>
+        <select id="fragFormType" style="width:100%;background:var(--charcoal-2);border:1px solid var(--hairline);color:var(--ivory);padding:11px 13px;font-size:14px;">
+          <option value="">Не указывать</option>
+          <option value="original">Оригинал</option>
+          <option value="copy">Копия / аналог</option>
+        </select>
+      </div>
+      <div class="review-form-row" style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" id="fragFormInStock" checked style="width:auto;">
+        <label style="margin:0;" for="fragFormInStock">В наличии (снять галочку = «Под заказ»)</label>
+      </div>
+
+      <div class="login-error" id="fragFormError"></div>
+
+      <div style="display:flex;gap:10px;margin-top:22px;">
+        <button id="fragFormDelete" class="btn-outline" style="flex:1;display:none;color:#c97a6a;border-color:rgba(201,122,106,0.4);">Удалить</button>
+        <button id="fragFormCancel" class="btn-outline" style="flex:1;">Отмена</button>
+        <button id="fragFormSave" class="btn-solid" style="flex:1;text-align:center;">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

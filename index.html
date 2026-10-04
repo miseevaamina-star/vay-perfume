@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VAY PERFUME — арабская парфюмерия</title>
+<meta name="description" content="Арабская парфюмерия VAY PERFUME. Найдите аромат, который подходит именно вам.">
+<meta name="theme-color" content="#0a0908">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VAY PERFUME — арабская парфюмерия">
+<meta property="og:description" content="Арабская парфюмерия VAY PERFUME. Найдите аромат, который подходит именно вам.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>if(sessionStorage.getItem('vayIntroPlayed')){document.documentElement.classList.add('skip-intro');}</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="introOverlay">
+  <div class="intro-glow"></div>
+  <div class="intro-particles" id="introParticles"></div>
+  <div class="intro-logo-frame">
+    <div class="glow"></div>
+    <img src="assets/logo.jpg" alt="">
+  </div>
+</div>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="#top" class="brandmark" aria-label="VAY PERFUME — на главную">VAY<span> · </span>PERFUME</a>
+    <nav class="desktop-nav" aria-label="Основное меню">
+      <a href="#collection">Коллекция</a>
+      <a href="#how">Как заказать</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#faq">Частые вопросы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Мобильное меню">
+  <a href="#top" class="menu-link">Главная</a>
+  <a href="#collection" class="menu-link">Коллекция</a>
+  <a href="#collection" data-filter="him" class="menu-link">Для него</a>
+  <a href="#collection" data-filter="her" class="menu-link">Для неё</a>
+  <a href="WHATSAPP_HELP" target="_blank" rel="noopener" class="menu-link">Подобрать аромат</a>
+  <a href="#reviews" class="menu-link">Отзывы</a>
+  <a href="#about" class="menu-link">О бренде</a>
+  <a href="#faq" class="menu-link">Частые вопросы</a>
+  <a href="#contacts" class="menu-link">Контакты</a>
+  <div class="menu-contacts">
+    <a href="WHATSAPP_LINK" target="_blank" rel="noopener" class="menu-link menu-sub">WhatsApp · +7 963 599 77 99</a>
+    <a href="INSTAGRAM_LINK" target="_blank" rel="noopener" class="menu-link menu-sub">Instagram · @vay.perfum</a>
+  </div>
+</nav>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-logo-frame">
+      <div class="glow"></div>
+      <img class="hero-logo" src="assets/logo.jpg" alt="VAY PERFUME">
+    </div>
+    <div class="hero-tagline">АРАБСКАЯ ПАРФЮМЕРИЯ</div>
+    <h1 class="hero-title">Ароматы, которые запоминают.</h1>
+    <p class="hero-desc">Современная арабская парфюмерия — от свежих и лёгких до глубоких и насыщенных ароматов.</p>
+    <div class="hero-cta">
+      <a href="#collection" class="btn-solid">СМОТРЕТЬ КОЛЛЕКЦИЮ</a>
+      <a href="WHATSAPP_HELP" target="_blank" rel="noopener" class="btn-outline">ПОДОБРАТЬ АРОМАТ</a>
+    </div>
+  </section>
+
+  <section id="about" class="about" aria-labelledby="aboutTitle">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">VAY PERFUME</span>
+        <h2 class="section-title" id="aboutTitle">Не просто ноты.</h2>
+      </div>
+      <div class="reveal">
+        <p>Мы выбираем ароматы не только по составу. Нам важно ощущение, которое остаётся после первого распыления — свежесть, тепло, уверенность, мягкость или тот самый шлейф, который хочется почувствовать снова.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="hairline"></div>
+
+  <section id="collection" aria-labelledby="collectionTitle">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">КОЛЛЕКЦИЯ</span>
+        <h2 class="section-title" id="collectionTitle">Найдите аромат, который говорит за вас.</h2>
+      </div>
+      <div class="filters" role="group" aria-label="Фильтр коллекции">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="him">Для него</button>
+        <button class="filter-btn" data-filter="her">Для неё</button>
+      </div>
+      <div class="grid" id="grid"><!-- cards injected by JS --></div>
+    </div>
+  </section>
+
+  <section class="strip" aria-labelledby="helpTitle">
+    <div class="wrap">
+      <h2 class="section-title reveal" id="helpTitle">Не знаете, какой аромат выбрать?</h2>
+      <p class="section-sub reveal">Расскажите, какие ароматы вам обычно нравятся — свежие, сладкие, древесные, цветочные или насыщенные. Мы предложим несколько вариантов из нашей коллекции.</p>
+      <a href="WHATSAPP_HELP" target="_blank" rel="noopener" class="btn-solid reveal">ПОДОБРАТЬ АРОМАТ</a>
+    </div>
+  </section>
+
+  <section id="why" aria-labelledby="whyTitle">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin-bottom:0;">
+        <span class="eyebrow">ПОЧЕМУ VAY</span>
+        <h2 class="section-title" id="whyTitle">Коротко о главном</h2>
+      </div>
+      <div class="why-grid reveal">
+        <div class="why-item"><div class="why-num">01</div><div class="why-title">Арабская парфюмерия</div><div class="why-text">Свежие, сладкие, древесные, насыщенные</div></div>
+        <div class="why-item"><div class="why-num">02</div><div class="why-title">Поможем выбрать аромат</div><div class="why-text">Расскажите, что нравится — предложим варианты</div></div>
+        <div class="why-item"><div class="why-num">03</div><div class="why-title">Отправляем по всей России</div><div class="why-text">Способ доставки выбираете вы</div></div>
+        <div class="why-item"><div class="why-num">04</div><div class="why-title">Заказ через WhatsApp</div><div class="why-text">Напрямую, без корзины и регистрации</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" aria-labelledby="howTitle" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin-bottom:0;">
+        <span class="eyebrow">КАК ЗАКАЗАТЬ</span>
+        <h2 class="section-title" id="howTitle">Пять простых шагов</h2>
+      </div>
+      <div class="steps reveal">
+        <div class="step"><span class="step-num">01</span><span class="step-text">Выберите аромат</span></div>
+        <div class="step"><span class="step-num">02</span><span class="step-text">Напишите нам в WhatsApp</span></div>
+        <div class="step"><span class="step-num">03</span><span class="step-text">Мы подтвердим наличие и детали заказа</span></div>
+        <div class="step"><span class="step-num">04</span><span class="step-text">Оплатите переводом на карту</span></div>
+        <div class="step"><span class="step-num">05</span><span class="step-text">Получите заказ удобным способом доставки</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faqTitle" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin-bottom:0;">
+        <span class="eyebrow">ЧАСТЫЕ ВОПРОСЫ</span>
+        <h2 class="section-title" id="faqTitle">Остались вопросы?</h2>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q1" aria-expanded="false" aria-controls="faq-a1"><span>Как понять, какой аромат мне подойдёт?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div class="faq-a-inner"><p>Если вы не знаете, с чего начать, напишите нам в WhatsApp, какие ароматы вам обычно нравятся — свежие, сладкие, древесные, цветочные, пряные или более насыщенные. Мы предложим несколько вариантов из нашей коллекции.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Что делать, если я вообще не знаю, какой аромат выбрать?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div class="faq-a-inner"><p>Ничего страшного. Расскажите, для кого выбираете аромат, какие запахи вам нравятся или, наоборот, какие не любите. Мы поможем подобрать несколько вариантов.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>Как заказать аромат?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div class="faq-a-inner"><p>Выберите понравившийся аромат в каталоге и нажмите «Заказать в WhatsApp». После этого мы подтвердим наличие и детали заказа.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Можно ли сначала уточнить наличие?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div class="faq-a-inner"><p>Конечно. Перед оплатой мы подтверждаем наличие выбранного аромата и согласовываем все детали заказа в WhatsApp.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>Как происходит оплата?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div class="faq-a-inner"><p>После подтверждения заказа в WhatsApp мы отправляем реквизиты для перевода на карту.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>Как осуществляется доставка?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div class="faq-a-inner"><p>Отправляем заказы по всей России. Способ доставки можно выбрать в зависимости от вашего города и удобства.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q7" aria-expanded="false" aria-controls="faq-a7"><span>Можно ли заказать, если я нахожусь в другом городе?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div class="faq-a-inner"><p>Да. Мы отправляем заказы по всей России.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q8" aria-expanded="false" aria-controls="faq-a8"><span>Можно ли спросить совета перед покупкой?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div class="faq-a-inner"><p>Да. Если сомневаетесь между несколькими ароматами, напишите нам — поможем сравнить их и подобрать подходящий вариант.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" id="faq-q9" aria-expanded="false" aria-controls="faq-a9"><span>Как узнать больше об аромате?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq-a9" role="region" aria-labelledby="faq-q9"><div class="faq-a-inner"><p>В карточке каждого аромата указаны его описание, ноты и объём. Если информации недостаточно, напишите нам в WhatsApp.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin-bottom:0;">
+        <span class="eyebrow">ОТЗЫВЫ</span>
+        <h2 class="section-title">Что говорят<br class="reviews-br"> наши клиенты</h2>
+      </div>
+    </div>
+
+    <div class="reviews-carousel">
+      <button class="reviews-arrow reviews-arrow-prev" id="reviewsPrev" aria-label="Предыдущий отзыв">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5 8 12l7 7"/></svg>
+      </button>
+      <div class="reviews-track" id="reviewsTrack"></div>
+      <button class="reviews-arrow reviews-arrow-next" id="reviewsNext" aria-label="Следующий отзыв">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="reviews-dots" id="reviewsDots"></div>
+  </section>
+
+  <section class="finale" id="contacts" aria-labelledby="finaleTitle">
+    <span class="eyebrow reveal">VAY PERFUME</span>
+    <h2 class="section-title reveal" id="finaleTitle">Найдите аромат, который подходит именно вам.</h2>
+    <p class="section-sub reveal">Не знаете, с чего начать? Напишите нам — поможем выбрать.</p>
+    <div class="finale-cta reveal">
+      <a href="#collection" class="btn-solid">СМОТРЕТЬ КОЛЛЕКЦИЮ</a>
+      <a href="WHATSAPP_HELP" target="_blank" rel="noopener" class="btn-outline">ПОДОБРАТЬ АРОМАТ</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brandmark">VAY<span> · </span>PERFUME</span>
+    <div class="foot-sub">Арабская парфюмерия</div>
+    <div class="foot-cols">
+      <div class="foot-col">
+        <div class="foot-col-title">МЕНЮ</div>
+        <a href="#collection">Коллекция</a>
+        <a href="#collection" data-filter="him" class="menu-link">Для него</a>
+        <a href="#collection" data-filter="her" class="menu-link">Для неё</a>
+        <a href="#about">О бренде</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#faq">Частые вопросы</a>
+        <a href="#contacts">Контакты</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-title">СВЯЗЬ</div>
+        <a href="WHATSAPP_LINK" target="_blank" rel="noopener" class="foot-contact-link">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.78 14.02c-.24.68-1.4 1.3-1.93 1.35-.5.05-1 .24-3.39-.7-2.87-1.13-4.71-4.07-4.86-4.26-.14-.19-1.16-1.55-1.16-2.96s.73-2.1 1-2.39c.24-.27.53-.33.71-.33.18 0 .35 0 .5.01.16.01.38-.06.59.45.24.57.8 1.98.87 2.12.07.15.12.31.02.5-.09.19-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.29.28-.12.55.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.68-.79.87-1.06.18-.27.36-.22.6-.13.24.09 1.55.73 1.82.86.27.13.44.19.51.3.07.11.07.62-.17 1.3z"/></svg>
+          <span>+7 963 599 77 99</span>
+        </a>
+        <a href="INSTAGRAM_LINK" target="_blank" rel="noopener" class="foot-contact-link">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+          <span>@vay.perfum</span>
+        </a>
+      </div>
+    </div>
+    <div class="copyright">© VAY PERFUME</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="fragModalOverlay">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-content" style="padding:26px;">
+      <h3 class="modal-name" style="margin-bottom:18px;">Аромат</h3>
+
+      <div class="review-form-row">
+        <label>Фото</label>
+        <input type="file" id="fragFormPhotoFile" accept="image/*">
+        <div id="fragFormPhotoPreview" style="margin-top:10px;width:110px;aspect-ratio:3/4;background:#000;overflow:hidden;display:none;">
+          <img id="fragFormPhotoImg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+      </div>
+      <div class="review-form-row">
+        <label>Категория</label>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="filter-btn frag-gender-btn active" data-gender="him" style="flex:1;">Для него</button>
+          <button type="button" class="filter-btn frag-gender-btn" data-gender="her" style="flex:1;">Для неё</button>
+        </div>
+      </div>
+      <div class="review-form-row">
+        <label>Бренд</label>
+        <input type="text" id="fragFormBrand" placeholder="Например, Lattafa">
+      </div>
+      <div class="review-form-row">
+        <label>Название</label>
+        <input type="text" id="fragFormName" placeholder="Название аромата">
+      </div>
+      <div class="review-form-row">
+        <label>Ощущение / описание</label>
+        <textarea id="fragFormFeel" rows="2" placeholder="Тёплый, сладкий, насыщенный..."></textarea>
+      </div>
+      <div class="review-form-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div><label>Верхние ноты</label><input type="text" id="fragFormNotesTop"></div>
+        <div><label>Сердце</label><input type="text" id="fragFormNotesHeart"></div>
+        <div><label>База</label><input type="text" id="fragFormNotesBase"></div>
+      </div>
+      <div class="review-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><label>Объём</label><input type="text" id="fragFormVolume" placeholder="90 мл"></div>
+        <div><label>Порядок показа</label><input type="number" id="fragFormOrder" placeholder="0"></div>
+      </div>
+      <div class="review-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><label>Цена</label><input type="text" id="fragFormPrice" placeholder="3 500 ₽"></div>
+        <div><label>Старая цена</label><input type="text" id="fragFormOldPrice" placeholder="необязательно"></div>
+      </div>
+      <div class="review-form-row">
+        <label>Характер аромата (коротко)</label>
+        <input type="text" id="fragFormCharacter" placeholder="тёплый · пряный · сладкий">
+      </div>
+      <div class="review-form-row">
+        <label>Тип товара</label>
+        <select id="fragFormType" style="width:100%;background:var(--charcoal-2);border:1px solid var(--hairline);color:var(--ivory);padding:11px 13px;font-size:14px;">
+          <option value="">Не указывать</option>
+          <option value="original">Оригинал</option>
+          <option value="copy">Копия / аналог</option>
+        </select>
+      </div>
+      <div class="review-form-row" style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" id="fragFormInStock" checked style="width:auto;">
+        <label style="margin:0;" for="fragFormInStock">В наличии (снять галочку = «Под заказ»)</label>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:22px;">
+        <button id="fragFormDelete" class="btn-outline" style="flex:1;display:none;color:#c97a6a;border-color:rgba(201,122,106,0.4);">Удалить</button>
+        <button id="fragFormCancel" class="btn-outline" style="flex:1;">Отмена</button>
+        <button id="fragFormSave" class="btn-solid" style="flex:1;text-align:center;">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="review-lightbox" id="reviewLightbox">
+  <button class="review-lightbox-close" id="reviewLightboxClose" aria-label="Закрыть отзыв">✕</button>
+  <img id="reviewLightboxImg" src="" alt="Отзыв клиента VAY PERFUME">
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <div class="modal-photo" id="modalPhoto">
+      <button class="modal-close" id="modalClose" aria-label="Закрыть">✕</button>
+      <div class="placeholder-ph" id="modalPhPh"><span class="drop">◆</span><small>ФОТО БУДЕТ<br>ДОБАВЛЕНО</small></div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-brand" id="modalBrand"></div>
+      <h3 class="modal-name" id="modalName"></h3>
+      <div class="modal-badges" id="modalBadges"></div>
+      <div class="modal-block">
+        <span class="eyebrow">КАК ПАХНЕТ</span>
+        <p id="modalFeel"></p>
+        <p id="modalCharacter" style="margin-top:8px;color:var(--gold-soft);"></p>
+      </div>
+      <div class="modal-block">
+        <span class="eyebrow">НОТЫ</span>
+        <p class="notes-line" id="modalNotesTop"></p>
+        <p class="notes-line" id="modalNotesHeart"></p>
+        <p class="notes-line" id="modalNotesBase"></p>
+      </div>
+      <div class="modal-block">
+        <span class="eyebrow">ОБЪЁМ</span>
+        <p id="modalVolume"></p>
+      </div>
+      <div class="modal-price-row">
+        <span class="eyebrow" style="margin-bottom:0;">ЦЕНА</span>
+        <span class="modal-price" id="modalPrice"></span>
+      </div>
+      <a href="WHATSAPP_LINK" target="_blank" rel="noopener" class="btn-solid modal-order" id="modalOrder">ЗАКАЗАТЬ В WHATSAPP</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
