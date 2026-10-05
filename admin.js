@@ -38,13 +38,18 @@ async function init() {
     loginError.textContent = "Не удалось загрузить Supabase (проверьте интернет-соединение).";
     return;
   }
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) {
-    showApp();
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      showApp();
+    }
+    sb.auth.onAuthStateChange((_event, session) => {
+      if (session) showApp(); else showLogin();
+    });
+  } catch (e) {
+    console.warn("Supabase: ошибка при проверке сессии —", e);
+    loginError.textContent = "Не удалось связаться с Supabase. Проверьте интернет-соединение и обновите страницу.";
   }
-  sb.auth.onAuthStateChange((_event, session) => {
-    if (session) showApp(); else showLogin();
-  });
 }
 
 function showLogin() {
@@ -58,18 +63,30 @@ function showApp() {
 }
 
 loginSubmit.addEventListener("click", async () => {
-  const sb = getSupabase();
-  if (!sb) return;
   loginError.textContent = "";
-  loginSubmit.disabled = true;
-  const { error } = await sb.auth.signInWithPassword({
-    email: loginEmail.value.trim(),
-    password: loginPassword.value,
-  });
-  loginSubmit.disabled = false;
-  if (error) {
-    loginError.textContent = "Не удалось войти: проверьте email и пароль.";
+
+  const sb = getSupabase();
+  if (!sb) {
+    loginError.textContent = "Не удалось загрузить Supabase (проверьте интернет-соединение) — попробуйте обновить страницу.";
     return;
+  }
+
+  loginSubmit.disabled = true;
+  try {
+    const { error } = await sb.auth.signInWithPassword({
+      email: loginEmail.value.trim(),
+      password: loginPassword.value,
+    });
+    if (error) {
+      loginError.textContent = "Не удалось войти: проверьте email и пароль.";
+    }
+    // при успехе showApp() вызовет onAuthStateChange — здесь ничего
+    // дополнительно делать не нужно.
+  } catch (e) {
+    console.warn("Supabase: ошибка при входе —", e);
+    loginError.textContent = "Не удалось связаться с Supabase. Проверьте интернет-соединение и попробуйте ещё раз.";
+  } finally {
+    loginSubmit.disabled = false;
   }
 });
 loginPassword.addEventListener("keydown", (e) => { if (e.key === "Enter") loginSubmit.click(); });
